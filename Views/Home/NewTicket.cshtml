@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "New Ticket";
+}
+
+<h3>Create new Ticket</h3>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3 row">
+        <label for="staticAbending" class="col-sm-2 col-form-label">Abending</label>
+        <div class="col-sm-10">
+            <input name="Abending" type="text" class="form-control" id="staticAbending">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticKennitala" class="col-sm-2 col-form-label">Kennitala</label>
+        <div class="col-sm-10">
+            <input name="Kennitala" type="text" class="form-control" id="staticKennitala">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticAbendingaradili" class="col-sm-2 col-form-label">Abendingaradili</label>
+        <div class="col-sm-10">
+            <input name="Abendingaradili" type="text" class="form-control" id="staticAbendingaradili">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticNetfang" class="col-sm-2 col-form-label">Netfang</label>
+        <div class="col-sm-10">
+            <input name="Netfang" type="text" class="form-control" id="staticNetfang">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticSimi" class="col-sm-2 col-form-label">Simi</label>
+        <div class="col-sm-10">
+            <input name="Simi" type="text" class="form-control" id="staticSimi">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticHeimilisfang" class="col-sm-2 col-form-label">Heimilisfang</label>
+        <div class="col-sm-10">
+            <input name="Heimilisfang" type="text" class="form-control" id="staticHeimilisfang">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticLysing" class="col-sm-2 col-form-label">Lysing</label>
+        <div class="col-sm-10">
+            <textarea name="Lysing" class="form-control" id="staticLysing"></textarea>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticHnit_A" class="col-sm-2 col-form-label">Hnit_A</label>
+        <div class="col-sm-10">
+            <input name="Hnit_A" type="text" class="form-control" id="staticHnit_A" value="-21.905811">
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="staticHnit_N" class="col-sm-2 col-form-label">Hnit_N</label>
+        <div class="col-sm-10">
+            <input name="Hnit_N" type="text" class="form-control" id="staticHnit_N" value="64.111787">
+        </div>
+    </div>
+
+    <div id="files">
+        <div class="mb-3 row" id="fileTemplate">
+            <label class="col-sm-2 col-form-label">File</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input name="Files" type="file" class="form-control">
+                    <div class="d-none input-group-append">
+                        <button type="button" class="input-group-text bg-danger text-white delete">X</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-sm-10">
+            <button type="button" class="btn btn-primary" id="addFile">Add File</button>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function () {
+        $('#addFile').click(function () {
+            var newFileDiv = $('<div/>', {
+                class: "mb-3 row deletable",
+                html: $('#fileTemplate').clone().html()
+            });
+            newFileDiv.find('.d-none').removeClass('d-none');
+            $('#files').append(newFileDiv);
+            $('.delete').click(function (event) {
+                $(this).closest('.deletable').remove();
+            });
+        });
+    });
+    //]]>
+</script>
+

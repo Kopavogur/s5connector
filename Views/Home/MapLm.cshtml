@@ -1,0 +1,57 @@
+﻿<script src="~/js/MapLm.js" asp-append-version="true"></script>
+
+<script>
+    var MapLayerClick;
+
+    const handleLocationInfo = function (x, y, lon, lat) {
+        $("#x:text").val(x);
+        $("#y:text").val(y);
+        $("#long:text").val(lon);
+        $("#lat:text").val(lat);
+    }
+
+    const viewInfo = {
+        x: 358337,
+        y: 404211,
+        m: 1,
+        z: 7
+    };
+
+    $('document').ready(function () {
+        LM_init('lm_map_div', viewInfo, handleLocationInfo);
+    });
+</script>
+
+
+<form enctype="multipart/form-data" action="/" method="post" accept-charset="UTF-8" class="row g-3">
+
+    <div class="col-md-10">
+        <label>Heilisfang</label>
+        <input id="address" type="text" name="Address" value="" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label>Póstnúmer</label>
+        <input id="address_zip" type="text" name="Zip" value="" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label>Long / x / e</label>
+        <input id="long" type="text" name="long" value="" class="form-control" /><input id="x" type="text" name="x" value="" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label>Lat / y / n</label>
+        <input id="lat" type="text" name="lat" value="" class="form-control" /><input id="y" type="text" name="y" value="" class="form-control" />
+    </div>
+
+    <div class="col-md-12">
+        <div id="lm_map_div" style="height: 400px; width: 100%;">
+            Loading Map...
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" id="edit-submit" name="op" value="Senda ábendingu" class="btn btn-primary form-submit">Senda ábendingu</button>
+    </div>
+</form>
+
+<noscript><div class="noscript-info">Vinsamlegast virkjaðu javascript í vafranum fyrir virkni vefsíðunnar</div></noscript>

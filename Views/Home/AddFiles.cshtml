@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "New Ticket";
+}
+
+<h3>Attach Files to existing Ticket</h3>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label">S5EequestID</label>
+        <div class="col-sm-10">
+            <input name="S5EequestID" type="text" class="form-control">
+        </div>
+    </div>
+    <div id="files">
+        <div class="mb-3 row" id="fileTemplate">
+            <label class="col-sm-2 col-form-label">File</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input name="Files" type="file" class="form-control">
+                    <div class="d-none input-group-append">
+                        <button type="button" class="input-group-text bg-danger text-white delete">X</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-sm-10">
+            <button type="button" class="btn btn-primary" id="addFile">Add File</button>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Attach</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function () {
+        $('#addFile').click(function () {
+            var newFileDiv = $('<div/>', {
+                class: "mb-3 row deletable",
+                html: $('#fileTemplate').clone().html()
+            });
+            newFileDiv.find('.d-none').removeClass('d-none')
+            $('#files').append(newFileDiv);
+            $('.delete').click(function (event) {
+                $(this).closest('.deletable').remove();
+            });
+        });
+    });
+    //]]>
+</script>

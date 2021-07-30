@@ -1,0 +1,70 @@
+﻿<script src="https://js.arcgis.com/3.13/init.js"></script>
+<script src="~/js/MapArc.js" asp-append-version="true"></script>
+<script>
+    const handleLocationInfo = function (x, y, long, lat) {
+        $("#x:text").val(x);
+        $("#y:text").val(y);
+        $("#long:text").val(long);
+        $("#lat:text").val(lat);
+    }
+
+    const handleFeatureAddressInfo = function (featureSet) {
+        let attr = featureSet.features[0].attributes;
+        $("#address:text").val(`${attr.GATA_NF} ${attr.HUS_NR}`);
+        $("#address_zip:text").val(attr.POSTNR);
+    }
+
+    const handleFeatureStreetInfo = function (featureSet) {
+        let attr = featureSet.features[0].attributes;
+        //alert(JSON.stringify(attr));
+    }
+
+    const handleFeatureMap = new Map([
+        ['heimilisfang', {
+            layer: 10,
+            handler: handleFeatureAddressInfo
+        }],
+        ['gotur', {
+            layer: 23,
+            handler: handleFeatureStreetInfo
+        }]
+    ]);
+    $('document').ready(function () {
+        initMapArc(handleLocationInfo, handleFeatureMap);
+    });
+
+</script>
+
+
+<form enctype="multipart/form-data" action="/" method="post" accept-charset="UTF-8" class="row g-3">
+
+    <div class="col-md-10">
+        <label>Heilisfang</label>
+        <input id="address" type="text" name="Address" value="" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label>Póstnúmer</label>
+        <input id="address_zip" type="text" name="Zip" value="" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label>Long / x</label>
+        <input id="long" type="text" name="long" value="" class="form-control" /><input id="x" type="text" name="x" value="" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label>Lat / y</label>
+        <input id="lat" type="text" name="lat" value="" class="form-control" /><input id="y" type="text" name="y" value="" class="form-control" />
+    </div>
+
+    <div class="col-md-12">
+        <div id="mapDiv">
+            <div id="LocateButton"></div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" id="edit-submit" name="op" value="Senda ábendingu" class="btn btn-primary form-submit">Senda ábendingu</button>
+    </div>
+</form>
+
+<noscript><div class="noscript-info">Vinsamlegast virkjaðu javascript í vafranum fyrir virkni vefsíðunnar</div></noscript>

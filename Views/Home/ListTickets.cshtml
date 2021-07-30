@@ -1,0 +1,30 @@
+﻿@model HomeController.ListTicketsViewModel
+
+@{
+    ViewData["Title"] = "Ticket List";
+}
+
+<h3>Ticket History</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (System.Data.DataColumn col in Model.Table.Columns)
+            {
+                <th scope="col">@col.Caption</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                @foreach (var cell in row.ItemArray)
+                {
+                    <td>@cell.ToString()</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+

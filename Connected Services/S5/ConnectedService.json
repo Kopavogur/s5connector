@@ -1,0 +1,36 @@
+﻿{
+  "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
+  "Version": "15.0.40203.910",
+  "GettingStartedDocument": {
+    "Uri": "https://go.microsoft.com/fwlink/?linkid=858517"
+  },
+  "ExtendedData": {
+    "inputs": [
+      "http://gaedakerfi.kopavogur.is/abendingarws/service.asmx"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "messageContract": true,
+    "namespaceMappings": [
+      "*, S5"
+    ],
+    "references": [
+      "Microsoft.AspNetCore.Mvc.Razor.Extensions, {Microsoft.AspNetCore.Mvc.Razor.Extensions, 3.1.16}",
+      "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, {Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 3.1.16}",
+      "Microsoft.AspNetCore.Razor.Language, {Microsoft.AspNetCore.Razor.Language, 3.1.16}",
+      "Microsoft.CodeAnalysis, {Microsoft.CodeAnalysis.Common, 3.3.0}",
+      "Microsoft.CodeAnalysis.CSharp, {Microsoft.CodeAnalysis.CSharp, 3.3.0}",
+      "Microsoft.CodeAnalysis.Razor, {Microsoft.CodeAnalysis.Razor, 3.1.16}",
+      "Microsoft.Extensions.DependencyModel, {Microsoft.Extensions.DependencyModel, 3.1.6}",
+      "System.Collections.Immutable, {System.Collections.Immutable, 1.5.0}",
+      "System.Reflection.Metadata, {System.Reflection.Metadata, 1.6.0}",
+      "System.Runtime.CompilerServices.Unsafe, {System.Runtime.CompilerServices.Unsafe, 4.5.2}",
+      "System.Text.Encoding.CodePages, {System.Text.Encoding.CodePages, 4.5.1}",
+      "System.Text.Json, {System.Text.Json, 4.7.2}"
+    ],
+    "targetFramework": "netcoreapp3.1",
+    "typeReuseMode": "All"
+  }
+}
