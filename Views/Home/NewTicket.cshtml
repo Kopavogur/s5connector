@@ -4,7 +4,7 @@
 
 <h3>Create new Ticket</h3>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" id="newForm" enctype="multipart/form-data">
     <div class="mb-3 row">
         <label for="staticAbending" class="col-sm-2 col-form-label">Abending</label>
         <div class="col-sm-10">
@@ -84,11 +84,28 @@
             <button type="submit" class="btn btn-primary">Create</button>
         </div>
     </div>
+
+    <div class="mb-3 row">
+        <div class="col-sm-10">
+            <button type="button" id="newJsonp" class="btn btn-primary">
+                <span id="newJsonpSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Create with JSONP
+            </button>
+        </div>
+    </div>
+    <div id="newJsonpDiv" class="mb-3 row" style="display: none;">
+        <label for="staticLysing" class="col-sm-2 col-form-label">Result</label>
+        <div class="col-sm-10">
+            <textarea id="newJsonpResult" rows="10" class="form-control" spellcheck="false"></textarea>
+        </div>
+    </div>
+
 </form>
 
 <script type="text/javascript">
     //<![CDATA[
     $(document).ready(function () {
+        $("#newJsonpSpinner").hide();
         $('#addFile').click(function () {
             var newFileDiv = $('<div/>', {
                 class: "mb-3 row deletable",
@@ -100,6 +117,33 @@
                 $(this).closest('.deletable').remove();
             });
         });
+
+        $("#newJsonp").click(
+            function () {
+                $("#newJsonpResult").prop("disabled", true);
+                $("#newJsonpSpinner").show(100);
+                $("#newJsonpDiv").show(500);
+                $("#newJsonpResult").val("Loading...");
+                $.ajax({
+                    url: "https://abendingar.kopavogur.is/s5connector/Home/NewTicketRESTP",
+                    type: "GET",
+                    dataType: "jsonp",
+                    data: $("#newForm").serialize(),
+                    success: function (data) {
+                        $("#newJsonpResult").val(JSON.stringify(data));
+                        $("#newJsonpResult").prop("disabled", false);
+                        $("#newJsonpSpinner").hide();
+                        // Declare success in UI.
+                    },
+                    error: function (e) {
+                        $("#newJsonpResult").val(e.responseText);
+                        $("#newJsonpResult").prop("disabled", false);
+                        $("#newJsonpSpinner").hide();
+                        // Declare failure and show error in UI.
+                    }
+                });
+            }
+        );
     });
     //]]>
 </script>

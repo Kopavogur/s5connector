@@ -63,8 +63,35 @@ function LM_init(div, view, handler) {
     LM_map_div = document.getElementById(div);
     LM_map_div.style.backgroundColor = '#233E59';
 
-    var map_contents = '<div id="baseSwitcher">' + '<span id="lightsaber" class="map_sel_notselected"><a onclick="javascript:switchBaseLayers();return false;">Kort</a></span>' + '<span id="photo" class="map_sel_selected"><a onclick="javascript:switchBaseLayers();return false;">Mynd</a></span>' + '</div><div id="mapLogoDiv"><a title="Skoða á mini.loftmyndir.is" id=mapLogoImgLink href="#" target=_blank><img alt="mini.loftmyndir.is" border=0 id="mapLogoImg" src=' + prot + '//mini.loftmyndir.is/dvergur/img/map_logo_ljos.png></a>' + '</div><div id="LM_linkDiv"><a id="LM_linkA" href=' + prot + '//3w.loftmyndir.is target=_blank>Â© Loftmyndir ehf.</a></div>'
-    LM_map_div.setAttribute('class', 'smallmap')
+    // Define map div contents with an ES6 multiline template string. 
+    var map_contents = `
+        <style>
+            .geolocateIcon {
+                content: url( "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9JzMwMHB4JyB3aWR0aD0nMzAwcHgnICBmaWxsPSIjMDAwMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PGc+PHBhdGggZD0iTTI1Niw0MjJjLTkxLjUzMywwLTE2Ni03NC40NjctMTY2LTE2NlMxNjQuNDY3LDkwLDI1Niw5MHMxNjYsNzQuNDY3LDE2NiwxNjZTMzQ3LjUzMyw0MjIsMjU2LDQyMnogTTI1NiwxMDIgICAgYy04NC45MTYsMC0xNTQsNjkuMDg0LTE1NCwxNTRzNjkuMDg0LDE1NCwxNTQsMTU0czE1NC02OS4wODQsMTU0LTE1NFMzNDAuOTE2LDEwMiwyNTYsMTAyeiI+PC9wYXRoPjwvZz48Zz48cmVjdCB4PSIyNTAiIHk9IjY0IiB3aWR0aD0iMTIiIGhlaWdodD0iOTYiPjwvcmVjdD48L2c+PGc+PHJlY3QgeD0iMzUyIiB5PSIyNTAiIHdpZHRoPSI5NiIgaGVpZ2h0PSIxMiI+PC9yZWN0PjwvZz48Zz48cmVjdCB4PSIyNTAiIHk9IjM1MiIgd2lkdGg9IjEyIiBoZWlnaHQ9Ijk2Ij48L3JlY3Q+PC9nPjxnPjxyZWN0IHg9IjY0IiB5PSIyNTAiIHdpZHRoPSI5NiIgaGVpZ2h0PSIxMiI+PC9yZWN0PjwvZz48L2c+PC9zdmc+");
+                cursor: pointer;
+                height: 30px;
+                width: 30px;
+            }
+        </style>
+        <div style="height: 0px; width: 0px; top: 115px; left: 8px; position: relative; z-index: 2000;">
+            <span id="geoLocate" class="geolocateIcon"/>
+        </div>
+        <div id="baseSwitcher">
+            <span id="lightsaber" class="map_sel_notselected">
+                <a onclick="javascript:switchBaseLayers();return false;">Kort</a>
+            </span>
+            <span id="photo" class="map_sel_selected"><a onclick="javascript:switchBaseLayers();return false;">Mynd</a></span>
+        </div>
+        <div id="mapLogoDiv">
+            <a title="Skoða á mini.loftmyndir.is" id=mapLogoImgLink href="#" target=_blank>
+                <img alt="mini.loftmyndir.is" border=0 id="mapLogoImg" src="${prot}//mini.loftmyndir.is/dvergur/img/map_logo_ljos.png">
+            </a>
+        </div>
+        <div id="LM_linkDiv">
+            <a id="LM_linkA" href="${prot}//3w.loftmyndir.is" target=_blank>© Loftmyndir ehf.</a>
+        </div>
+    `;
+    LM_map_div.setAttribute('class', 'smallmap');
     LM_map_div.innerHTML = map_contents;
     var arr_scales = [6800000.0, 3400000.0, 1700000.0, 1000000.0, 500000.0, 250000.0, 100000.0, 50000.0, 25000.0, 10000.0, 5000.0, 2000.0, 1000.0, 500.0, 250.0];
     var panBounds = new OpenLayers.Bounds(234248.88, 297273.25, 759064.98, 686298.38);
@@ -78,12 +105,13 @@ function LM_init(div, view, handler) {
 
             }
         },
-        controls: [new OpenLayers.Control.PanPanel({ zoomWorldIcon: true }),
-        new OpenLayers.Control.ZoomPanel(),
-        new OpenLayers.Control.ZoomPanel(),
-        //new OpenLayers.Control.MouseDefaults(),
-        new OpenLayers.Control.Navigation({ dragPanOptions: { enableKinetic: true } }),
-        new OpenLayers.Control.TouchNavigation()
+        controls: [
+            new OpenLayers.Control.PanPanel({ zoomWorldIcon: true }),
+            //new OpenLayers.Control.Button({ displayClass: "geoLocate", trigger: geoLocate }),
+            new OpenLayers.Control.ZoomPanel(),
+            new OpenLayers.Control.ZoomPanel(),
+            new OpenLayers.Control.Navigation({ dragPanOptions: { enableKinetic: true } }),
+            new OpenLayers.Control.TouchNavigation()
         ],
         panDuration: 100,
         maxExtent: new OpenLayers.Bounds(0, 0, 1000000, 1000000),
@@ -161,6 +189,42 @@ function LM_init(div, view, handler) {
     });
     LM_map.addControl(MapLayerClick);
     MapLayerClick.activate();
+
+    // Install geo locate click handler
+    if (navigator.geolocation) {
+        $('#geoLocate').click(function () {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    let lon = position.coords.longitude;
+                    let lat = position.coords.latitude;
+                    setCenter(lon, lat);
+                    handler(-1, -1, lon, lat);
+                },
+                () => {
+                    // Error handling code goes here if there is interest in such.
+                }
+            );
+        });
+    }
+}
+
+function geoLocate() {
+    alert("GEOLocate");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+                setCenter(pos.lng, pos.lat);
+                handleLocationInfo(0, 0, pos.lng, pos.lat);
+            },
+            () => {
+                alert("geoLocate failed");
+            }
+        );
+    }
 }
 
 function setMarker(x, y) {
@@ -173,6 +237,12 @@ function setMarker(x, y) {
     let icon = new OpenLayers.Icon('https://mini.loftmyndir.is/img/teiknibola.png', size, offset);
     LM_currentMarker = new OpenLayers.Marker(new OpenLayers.LonLat(x, y), icon);
     LM_markerLayer.addMarker(LM_currentMarker);
+}
+
+function setCenter(lon, lat) {
+    let latLonCoord = proj4("EPSG:4326", "EPSG:3057", { x: lon, y: lat });
+    LM_map.setCenter(new OpenLayers.LonLat(latLonCoord.x, latLonCoord.y));
+    setMarker(latLonCoord.x, latLonCoord.y);
 }
 
 function switchBaseLayers() {

@@ -3,10 +3,10 @@
 <script>
     var MapLayerClick;
 
-    const handleLocationInfo = function (x, y, lon, lat) {
+    const handleLocationInfo = function (x, y, lng, lat) {
         $("#x:text").val(x);
         $("#y:text").val(y);
-        $("#long:text").val(lon);
+        $("#lon:text").val(lng);
         $("#lat:text").val(lat);
     }
 
@@ -14,14 +14,13 @@
         x: 358337,
         y: 404211,
         m: 1,
-        z: 7
+        z: 8
     };
 
-    $('document').ready(function () {
+    $(document).ready(function () {
         LM_init('lm_map_div', viewInfo, handleLocationInfo);
     });
 </script>
-
 
 <form enctype="multipart/form-data" action="/" method="post" accept-charset="UTF-8" class="row g-3">
 
@@ -36,7 +35,7 @@
 
     <div class="col-md-6">
         <label>Long / x / e</label>
-        <input id="long" type="text" name="long" value="" class="form-control" /><input id="x" type="text" name="x" value="" class="form-control" />
+        <input id="lon" type="text" name="long" value="" class="form-control" /><input id="x" type="text" name="x" value="" class="form-control" />
     </div>
     <div class="col-md-6">
         <label>Lat / y / n</label>
@@ -44,14 +43,69 @@
     </div>
 
     <div class="col-md-12">
-        <div id="lm_map_div" style="height: 400px; width: 100%;">
+        <div id="lm_map_div" style="height: 400px; width: 100%; cursor: crosshair;">
             Loading Map...
         </div>
     </div>
 
     <div class="col-md-2">
-        <button type="submit" id="edit-submit" name="op" value="Senda ábendingu" class="btn btn-primary form-submit">Senda ábendingu</button>
+        <button type="submit" id="edit-submit" class="btn btn-primary form-submit mt-2">Senda ábendingu</button>
+        <button type="button" id="jsonp" class="btn btn-secondary form-submit mt-1">JSON result AutoCompleteSearchP</button>
+    </div>
+    <div class="col-md-12">
+        <textarea name="jsonpResult" id="jsonpResult" rows="10" class="form-control mt-1" style="display: none;" spellcheck="false"></textarea>
     </div>
 </form>
+
+<script>
+    $(document).ready(
+        function () {
+            $("#address").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "https://abendingar.kopavogur.is/Sorphirda/Home/AutoCompleteSearchP",
+                        type: "GET",
+                        dataType: "jsonp",
+                        data: {
+                            term: request.term,
+                            suppressExact: false
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    if (ui.item.value.indexOf(" ") == -1) {
+                        $(this).keydown();
+                    } else {
+                        let info = ui.item.info;
+                        handleLocationInfo(info.X, info.Y, info.E_HNIT_WGS84, info.N_HNIT_WGS84);
+                        $("#address_zip").val(info.Postnr);
+                    }
+                }
+            });
+
+            $("#jsonp").click(
+                function () {
+                    $("#jsonpResult").show(500);
+                    $.ajax({
+                        url: "https://abendingar.kopavogur.is/Sorphirda/Home/AutoCompleteSearchP",
+                        type: "GET",
+                        dataType: "jsonp",
+                        data: {
+                            term: $("#address").val(),
+                            suppressExact: false
+                        },
+                        success: function (data) {
+                            $("#jsonpResult").val(JSON.stringify(data));
+                        }
+                    });
+                }
+            );
+
+        }
+    );
+</script>
 
 <noscript><div class="noscript-info">Vinsamlegast virkjaðu javascript í vafranum fyrir virkni vefsíðunnar</div></noscript>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using S5;
 using S5Connector.Models;
 using S5Connector.Utils;
@@ -101,6 +102,20 @@ namespace S5Connector.Controllers
                 abending, kennitala, abendingaradili, netfang, simi, heimilisfang, lysing, hnit_A, hnit_N, files);
         }
 
+        public string NewTicketRESTP(
+            string abending, string kennitala, string abendingaradili, string netfang, string simi, string heimilisfang, string lysing, string hnit_A, string hnit_N,
+            List<IFormFile> files,
+            string callback
+        )
+        {
+            return SerializeWithCallback(
+                DoNewTicket(
+                    abending, kennitala, abendingaradili, netfang, simi, heimilisfang, lysing, hnit_A, hnit_N, files
+                ),
+                callback
+            );
+        }
+
         public IActionResult MapArc()
         {
             return View();
@@ -186,6 +201,18 @@ namespace S5Connector.Controllers
                 {
                     throw new Exception($"Add file {file.FileName} failes with {response.AddFileResult.message}");
                 }
+            }
+        }
+        private static string SerializeWithCallback(object incoming, string callback)
+        {
+            string serialized = JsonConvert.SerializeObject(incoming);
+            if (string.IsNullOrWhiteSpace(callback))
+            {
+                return serialized;
+            }
+            else
+            {
+                return $"{callback}({serialized})";
             }
         }
     }

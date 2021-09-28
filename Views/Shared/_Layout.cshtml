@@ -4,20 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - S5Connector</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css" media="all" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <!--
     <link type="text/css" rel="stylesheet" href="https://abendingar.reykjavik.is/sites/default/files/css/css_lQaZfjVpwP_oGNqdtWCSpJT1EMqXdMiU84ekLLxQnc4.css" media="all" />
     <link type="text/css" rel="stylesheet" href="https://abendingar.reykjavik.is/sites/default/files/css/css_kUT1t7zTnRC3wqVrMVVqyeW0ARLsE59tABXOSdpeQiM.css" media="all" />
     <link type="text/css" rel="stylesheet" href="https://abendingar.reykjavik.is/sites/default/files/css/css_CC629jVSKUDqDGXdpyG6rm5YSUiW4j8BeEUPmgMGKzc.css" media="all" />
     <link type="text/css" rel="stylesheet" href="https://abendingar.reykjavik.is/sites/default/files/css/css_RTGqj3Xt9Gtie4KFaadx_j5fzh9foUJKoGUj0od9Vlg.css" media="all" />
+    -->
     <link type="text/css" rel="stylesheet" href="https://abendingar.reykjavik.is/sites/default/files/css/css_N7VQHiQI4jnOqCtAtetuc0erXfCr2owz14yLDHMxIbk.css" media="all" />
 </head>
 <body>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous" asp-append-version="true"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+    @await RenderSectionAsync("Scripts", required: false)
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -57,6 +70,7 @@
             @RenderBody()
         </main>
     </div>
+
     <noscript><div class="noscript-info">Vinsamlegast virkjaðu javascript í vafranum fyrir virkni vefsíðunnar</div></noscript>
 </body>
 </html>
