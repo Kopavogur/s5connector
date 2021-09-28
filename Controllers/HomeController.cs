@@ -34,7 +34,7 @@ namespace S5Connector.Controllers
         {
             ServiceSoap client = S5Client.Get;
 
-            GetViewAbendingarRequest request = new GetViewAbendingarRequest
+            GetViewAbendingarRequest request = new()
             {
                 S5Username = S5Client.User,
                 S5Password = S5Client.Password
@@ -43,9 +43,8 @@ namespace S5Connector.Controllers
             GetViewAbendingarResponse response = task.Result;
 
             DataSet dataSet = new DataSet();
-            StringReader resultStringReader = new StringReader(response.GetViewAbendingarResult.table.Any1.InnerXml);
+            StringReader resultStringReader = new(response.GetViewAbendingarResult.table.Any1.InnerXml);
             dataSet.ReadXml(resultStringReader);
-
             DataTable table = dataSet.Tables["Abendingar"];
             DataView dv = table.DefaultView;
 
@@ -56,7 +55,7 @@ namespace S5Connector.Controllers
                     (r1, r2) => Convert.ToDateTime(r2[2].ToString()).CompareTo(Convert.ToDateTime(r1[2].ToString()))
                 )
             );
-            ListTicketsViewModel model = new ListTicketsViewModel
+            ListTicketsViewModel model = new()
             {
                 Table = table,
                 Rows = rows
@@ -84,6 +83,7 @@ namespace S5Connector.Controllers
         )
         {
             ValuesABE values = DoNewTicket(abending, kennitala, abendingaradili, netfang, simi, heimilisfang, lysing, hnit_A, hnit_N, files);
+            ViewBag.ResultOfLastRequest = values;
             return View();
         }
 
@@ -145,7 +145,7 @@ namespace S5Connector.Controllers
         {
             client ??= S5Client.Get;
 
-            CreateAndUpdateAbending_PRequest request = new CreateAndUpdateAbending_PRequest
+            CreateAndUpdateAbending_PRequest request = new()
             {
                 S5Username = S5Client.User,
                 S5Password = S5Client.Password,
@@ -179,14 +179,14 @@ namespace S5Connector.Controllers
 
             foreach (IFormFile file in files)
             {
-                MemoryStream memoryStream = new MemoryStream();
+                MemoryStream memoryStream = new();
                 using (Stream fileStream = file.OpenReadStream())
                 {
                     fileStream.CopyTo(memoryStream);
                 }
                 byte[] bytes = memoryStream.ToArray();
 
-                AddFileRequest request = new AddFileRequest
+                AddFileRequest request = new()
                 {
                     S5Username = S5Client.User,
                     S5Password = S5Client.Password,
